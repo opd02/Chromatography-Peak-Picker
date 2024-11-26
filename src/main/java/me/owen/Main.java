@@ -65,6 +65,11 @@ public class Main {
         Main.knownRetentionTimes.put(3.55, "DECANE");
         Main.knownRetentionTimes.put(4.941, "STERIC PRODUCT");
         Main.knownRetentionTimes.put(5.034, "DIRECTED PRODUCT");
-        Main.knownRetentionTimes.put(5.25, "TERPINEN-4-ol");
+        Main.knownRetentionTimes.put(5.24, "TERPINEN-4-ol");
+        Main.knownRetentionTimes.put(1.522, "PENTANES?");
+        Main.knownRetentionTimes.put(5.344, "DODECANE");
+        Main.knownRetentionTimes.put(3.816, "DHL-unreacted");
+        Main.knownRetentionTimes.put(3.405, "P1 - of DHL");
+        Main.knownRetentionTimes.put(3.541, "P2 - of DHL");
     }
 }

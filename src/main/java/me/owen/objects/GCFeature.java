@@ -65,12 +65,17 @@ public class GCFeature {
     }
 
     public String getIdentity(){
+        StringBuilder returnString = new StringBuilder("UNKNOWN");
         for(double d : Main.knownRetentionTimes.keySet()){
-            if(Math.abs(this.getCenterTime() - d)/d < 0.01){
-                return Main.knownRetentionTimes.get(d);
+            if(Math.abs(this.getCenterTime() - d) < 0.01){
+                if(returnString.toString().equals("UNKNOWN")){
+                    returnString = new StringBuilder(Main.knownRetentionTimes.get(d));
+                }else{
+                    returnString.append(", ").append(Main.knownRetentionTimes.get(d));
+                }
             }
         }
-        return "UNKNOWN";
+        return returnString.toString();
     }
 
     public int getFeatureID() {
