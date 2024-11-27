@@ -1,6 +1,7 @@
 package me.owen.objects;
 
 import me.owen.Main;
+import me.owen.RTLibraryManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,12 +67,12 @@ public class GCFeature {
 
     public String getIdentity(){
         StringBuilder returnString = new StringBuilder("UNKNOWN");
-        for(double d : Main.knownRetentionTimes.keySet()){
-            if(Math.abs(this.getCenterTime() - d) < 0.01){
+        for(double d : RTLibraryManager.knownRetentionTimes.keySet()){
+            if(Math.abs(this.getCenterTime() - d) < 0.03){
                 if(returnString.toString().equals("UNKNOWN")){
-                    returnString = new StringBuilder(Main.knownRetentionTimes.get(d));
+                    returnString = new StringBuilder(RTLibraryManager.knownRetentionTimes.get(d));
                 }else{
-                    returnString.append(", ").append(Main.knownRetentionTimes.get(d));
+                    returnString.append(", ").append(RTLibraryManager.knownRetentionTimes.get(d));
                 }
             }
         }

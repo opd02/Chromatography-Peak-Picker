@@ -14,29 +14,49 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Main {
 
     public static double INTENSITY_THRESHOLD = 50;
-    public static HashMap<Double, String> knownRetentionTimes =  new HashMap<>();
+    public static File libraryFile;
 
     public static void main(String[] args) throws IOException {
-        if(args.length != 0 && args[0].equals("-t")) {
-            Main.INTENSITY_THRESHOLD = Double.parseDouble(args[1]);
-            System.out.println("Intensity Threshold set to " + Main.INTENSITY_THRESHOLD);
-        }
-        fillInKnownTable();
-
         System.out.println("Running GC-Peak-Picker...");
+
+        for(int i=0; i<args.length; i+=2){
+            String key = args[i];
+            String value = args[i+1];
+
+            switch (key) {
+                case "-t" :
+                    Main.INTENSITY_THRESHOLD = Double.parseDouble(value);
+                    System.out.println("Intensity threshold manually set to " + Main.INTENSITY_THRESHOLD);
+                    break;
+                case "-l" :
+                    Main.libraryFile = new File(value);
+                    if(Main.libraryFile.exists()){
+                        System.out.println("Library file set to " + Main.libraryFile.getAbsolutePath());
+                        RTLibraryManager.loadLibrary();
+                        break;
+                    }else{
+                        System.out.println("Specified library file not found: " + Main.libraryFile.getAbsolutePath());
+                    }
+            }
+        }
+        //TODO add baseline finder
+
         String runningDir = System.getProperty("user.dir");
-        ArrayList<File> filesInFolder = new ArrayList<File>();
+        ArrayList<File> filesInFolder = new ArrayList<>();
 
         try(DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(runningDir))){
 
             for(Path path : stream){
+                if(Main.libraryFile != null && Main.libraryFile.getAbsolutePath().equals(path.toString())){
+                    continue;
+                }
                 if(!Files.isDirectory(path) && path.toString().contains(".CSV")){
+
                     filesInFolder.add(path.toFile());
                     System.out.println("Opening File: "+path);
                 }
@@ -58,18 +78,5 @@ public class Main {
                     new Column().header("Peak Center").with(feature -> String.format("%.03f", feature.getCenterTime())),
                     new Column().header("Peak Area").with(feature -> String.format("%.02f", feature.getPeakArea())))));
         }
-    }
-
-    private static void fillInKnownTable(){
-        Main.knownRetentionTimes.put(1.729, "CYCLOHEXENE");
-        Main.knownRetentionTimes.put(3.55, "DECANE");
-        Main.knownRetentionTimes.put(4.941, "STERIC PRODUCT");
-        Main.knownRetentionTimes.put(5.034, "DIRECTED PRODUCT");
-        Main.knownRetentionTimes.put(5.24, "TERPINEN-4-ol");
-        Main.knownRetentionTimes.put(1.522, "PENTANES?");
-        Main.knownRetentionTimes.put(5.344, "DODECANE");
-        Main.knownRetentionTimes.put(3.816, "DHL-unreacted");
-        Main.knownRetentionTimes.put(3.405, "P1 - of DHL");
-        Main.knownRetentionTimes.put(3.541, "P2 - of DHL");
     }
 }
