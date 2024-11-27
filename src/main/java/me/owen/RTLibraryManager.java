@@ -8,6 +8,5 @@ public class RTLibraryManager {
 
     public static void loadLibrary() throws IOException {
         RTLibraryManager.knownRetentionTimes = JacksonCSVReader.readLibrary(Main.libraryFile);
-        System.out.println(RTLibraryManager.knownRetentionTimes);
     }
 }
