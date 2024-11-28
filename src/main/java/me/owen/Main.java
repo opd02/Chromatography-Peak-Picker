@@ -19,7 +19,9 @@ import java.util.List;
 public class Main {
 
     public static double INTENSITY_THRESHOLD = 50;
+    public static double RT_IDENTIFY_ERROR = 0.03;
     public static File libraryFile;
+    public static boolean isCustomThreshold = false;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Running GC-Peak-Picker...");
@@ -31,7 +33,12 @@ public class Main {
             switch (key) {
                 case "-t" :
                     Main.INTENSITY_THRESHOLD = Double.parseDouble(value);
+                    Main.isCustomThreshold = true;
                     System.out.println("Intensity threshold manually set to " + Main.INTENSITY_THRESHOLD);
+                    break;
+                case "-e":
+                    Main.RT_IDENTIFY_ERROR = Double.parseDouble(value);
+                    System.out.println("Allowed retention time identification error set to " + value);
                     break;
                 case "-l" :
                     Main.libraryFile = new File(value);
@@ -44,7 +51,6 @@ public class Main {
                     }
             }
         }
-        //TODO add baseline finder
 
         String runningDir = System.getProperty("user.dir");
         ArrayList<File> filesInFolder = new ArrayList<>();

@@ -1,10 +1,8 @@
 package me.owen.objects;
 
-import me.owen.Main;
 import me.owen.RTLibraryManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GCFeature {
     ArrayList<DataRow> data;
