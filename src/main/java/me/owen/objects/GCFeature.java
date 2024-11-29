@@ -36,6 +36,7 @@ public class GCFeature {
             double y2 = data.get(i + 1).getIntensity();
 
             area += (x2 - x1) * (y1 + y2) / 2.0;
+            //TODO use a better integrating algorithm?
         }
         return area;
     }

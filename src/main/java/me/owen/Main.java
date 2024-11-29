@@ -61,7 +61,7 @@ public class Main {
                 if(Main.libraryFile != null && Main.libraryFile.getAbsolutePath().equals(path.toString())){
                     continue;
                 }
-                if(!Files.isDirectory(path) && path.toString().contains(".CSV")){
+                if(!Files.isDirectory(path) && path.toString().toUpperCase().contains(".CSV")){
 
                     filesInFolder.add(path.toFile());
                     System.out.println("Opening File: "+path);
