@@ -5,7 +5,7 @@ import me.owen.RTLibraryManager;
 import java.util.ArrayList;
 
 public class GCFeature {
-    ArrayList<DataRow> data;
+    final ArrayList<DataRow> data;
     double startTime;
     double endTime;
     int featureID;

@@ -13,9 +13,9 @@ Use **-l \<csv library file name in working directory\>** to set the path to a t
 Use **-e \<number\>** to set an allowed deviation of time for identification purposes if a retention time library was provided.
 
 ## Example Start Commands
-`java -jar GC-Peak-Picker.jar -t 30 -l library.csv -0.03` would find all peaks in all csv files in the folder that have intensity above a baseline of 30 and attempt to assign their identities using the provided library.csv file in the working directory with an identification tollerance of plus/minus 0.03.
+`java -jar GC-Peak-Picker.jar -t 30 -l library.csv -0.03` would find all peaks in all csv files in the folder that have intensity above a baseline of 30 and attempt to assign their identities using the provided library.csv file in the working directory with an identification tolerance of plus/minus 0.03.
 
 `java -jar GC-Peak-Picker.jar -l library.csv` would find all peaks in all csv files in the folder above a calculated baseline and attempt to identify them using the library.csv. The default allowed tolerance for identification is 0.03 if not specified using -e.
 
 ## Retention Time Libraries
-You can proide a custom library of known retention times and compound identities if you've confirmed them via other means (mass spec etc.). The library file should be a tab-delimited .csv file with the identity on the left most column and the expected retention time being the right. The file should be placed in the same folder as the jar and data files being analyzed. An example library [can be found here.](https://github.com/opd02/Gas-Chromatography-Peak-Picker/blob/master/src/main/resources/ExampleLibrary.CSV)
+You can provide a custom library of known retention times and compound identities if you've confirmed them via other means (mass spec etc.). The library file should be a tab-delimited .csv file with the identity on the left most column and the expected retention time being the right. The file should be placed in the same folder as the jar and data files being analyzed. An example library [can be found here.](https://github.com/opd02/Gas-Chromatography-Peak-Picker/blob/master/src/main/resources/ExampleLibrary.CSV)
