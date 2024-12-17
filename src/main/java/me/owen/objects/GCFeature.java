@@ -1,5 +1,6 @@
 package me.owen.objects;
 
+import me.owen.Main;
 import me.owen.RTLibraryManager;
 
 import java.util.ArrayList;
@@ -35,7 +36,11 @@ public class GCFeature {
             double x2 = data.get(i + 1).getTime();
             double y2 = data.get(i + 1).getIntensity();
 
-            area += (x2 - x1) * (y1 + y2) / 2.0;
+            double firstArea = (x2 - x1) * (y1 + y2) / 2.0;
+            double baselineCorrection = Main.INTENSITY_THRESHOLD * (x2-x1);
+
+            area += firstArea - baselineCorrection;
+
             //TODO use a better integrating algorithm?
         }
         return area;

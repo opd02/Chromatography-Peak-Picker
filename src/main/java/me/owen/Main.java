@@ -68,7 +68,8 @@ public class Main {
                 }
             }
         }catch(Exception ignored){
-
+            System.out.println("Error searching running directory for .csv files. Make sure they are in the same directory as the jar.");
+            return;
         }
 
         for(File file : filesInFolder) {
