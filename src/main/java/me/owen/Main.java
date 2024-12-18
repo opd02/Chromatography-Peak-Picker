@@ -20,11 +20,14 @@ public class Main {
 
     public static double INTENSITY_THRESHOLD = 50;
     public static double RT_IDENTIFY_ERROR = 0.03;
+    public static String executionPath;
     public static File libraryFile;
     public static boolean isCustomThreshold = false;
+    public static boolean isCustomPath = false;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Running GC-Peak-Picker...");
+        //TODO Add a -output file - Make sure it also outputs the library file
 
         for(int i=0; i<args.length; i+=2){
             String key = args[i];
@@ -40,6 +43,15 @@ public class Main {
                     Main.RT_IDENTIFY_ERROR = Double.parseDouble(value);
                     System.out.println("Allowed retention time identification error set to " + value);
                     break;
+                case "-p":
+                    Main.isCustomPath = true;
+                   // if(value.charAt(0)=='\"'){
+                        Main.executionPath = value;
+                   // }else{
+                       // Main.executionPath = "\"" + value + "\"";
+                    //}
+                    System.out.println("Custom execution path set to " + value);
+                    break;
                 case "-l" :
                     Main.libraryFile = new File(value);
                     if(Main.libraryFile.exists()){
@@ -51,11 +63,12 @@ public class Main {
                     }
             }
         }
-
-        String runningDir = System.getProperty("user.dir");
+        if(Main.executionPath == null){
+            Main.executionPath = System.getProperty("user.dir");
+        }
         ArrayList<File> filesInFolder = new ArrayList<>();
 
-        try(DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(runningDir))){
+        try(DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(Main.executionPath))){
 
             for(Path path : stream){
                 if(Main.libraryFile != null && Main.libraryFile.getAbsolutePath().equals(path.toString())){
@@ -68,7 +81,11 @@ public class Main {
                 }
             }
         }catch(Exception ignored){
-            System.out.println("Error searching running directory for .csv files. Make sure they are in the same directory as the jar.");
+            if(Main.isCustomPath){
+                System.out.println("Error reading files in custom path. Make sure to put the target execution path in quotes");
+            }else{
+                System.out.println("Error searching running directory for .csv files. Make sure they are in the same directory as the jar.");
+            }
             return;
         }
 

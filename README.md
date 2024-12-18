@@ -12,6 +12,8 @@ Use **-l \<csv library file name in working directory\>** to set the path to a t
 
 Use **-e \<number\>** to set an allowed deviation of time for identification purposes if a retention time library was provided.
 
+Use **-p \<path\>** to set a custom execution path to search for CSV files. The path MUST be in quotes.
+
 ## Example Start Commands
 `java -jar GC-Peak-Picker.jar -t 30 -l library.csv -0.03` would find all peaks in all csv files in the folder that have intensity above a baseline of 30 and attempt to assign their identities using the provided library.csv file in the working directory with an identification tolerance of plus/minus 0.03.
 
