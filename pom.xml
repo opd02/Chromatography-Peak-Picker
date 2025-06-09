@@ -6,7 +6,7 @@
 
     <groupId>me.owen</groupId>
     <artifactId>Chromatography-Peak-Picker</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.0-BETA</version>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -65,15 +65,20 @@
     </build>
 
     <dependencies>
-    <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
-        <artifactId>jackson-dataformat-csv</artifactId>
-        <version>2.13.0</version>
-    </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>2.13.0</version>
+         </dependency>
         <dependency>
             <groupId>com.github.freva</groupId>
             <artifactId>ascii-table</artifactId>
             <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.6</version>
         </dependency>
     </dependencies>
 

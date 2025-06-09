@@ -14,10 +14,16 @@ Use **-e \<number\>** to set an allowed deviation of time for identification pur
 
 Use **-p \<path\>** to set a custom execution path to search for CSV files. The path MUST be in quotes.
 
+Use **-g \true\>** to toggle on the graphical output that will also plot your xy data, making analysis easier.
 ## Example Start Commands
-`java -jar GC-Peak-Picker.jar -t 30 -l library.csv -e 0.05` would find all peaks in all csv files in the folder that have intensity above a baseline of 30 and attempt to assign their identities using the provided library.csv file in the working directory with an identification tolerance of plus/minus 0.03.
+`java -jar GC-Peak-Picker.jar -t 30 -l library.csv -e 0.05 -g true` would find all peaks in all csv files in the folder that have intensity above a baseline of 30, attempt to assign their identities using the provided library.csv file in the working directory with an identification tolerance of plus/minus 0.03, and plot the data graphically.
 
 `java -jar GC-Peak-Picker.jar -l library.csv -p "C:\Users\opd\OneDrive\Desktop\myData"` would find all peaks in all csv files in the folder names "myData" above a calculated baseline and attempt to identify them using the library.csv that's in the same directory as the jar file. The default allowed tolerance for identification is 0.03 if not specified using -e.
 
 ## Retention Time Libraries
 You can provide a custom library of known retention times and compound identities if you've confirmed them via other means (mass spec etc.). The library file should be a tab-delimited .csv file with the identity on the left most column and the expected retention time being the right. The file should be placed in the same folder as the jar and data files being analyzed. An example library [can be found here.](https://github.com/opd02/Gas-Chromatography-Peak-Picker/blob/master/src/main/resources/ExampleLibrary.CSV)
+
+## Planned Features
+- Shoulder detection
+- A more sophisticated integrating algorithm
+- Data fitting for overlapping features

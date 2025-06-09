@@ -5,7 +5,9 @@ import com.github.freva.asciitable.Column;
 import com.github.freva.asciitable.HorizontalAlign;
 import me.owen.objects.DataRow;
 import me.owen.objects.GCFeature;
+import me.owen.plotting.XYPlot;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -14,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main {
@@ -24,17 +27,18 @@ public class Main {
     public static File libraryFile;
     public static boolean isCustomThreshold = false;
     public static boolean isCustomPath = false;
+    public static HashMap<List<DataRow>, String> datasets = new HashMap<>();
+    public static boolean graphical = false;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Running GC-Peak-Picker...");
-        //TODO Add a -output file - Make sure it also outputs the library file
 
         for(int i=0; i<args.length; i+=2){
             String key = args[i];
             String value = args[i+1];
 
             switch (key) {
-                case "-t" :
+                case "-t":
                     Main.INTENSITY_THRESHOLD = Double.parseDouble(value);
                     Main.isCustomThreshold = true;
                     System.out.println("Intensity threshold manually set to " + Main.INTENSITY_THRESHOLD);
@@ -42,6 +46,10 @@ public class Main {
                 case "-e":
                     Main.RT_IDENTIFY_ERROR = Double.parseDouble(value);
                     System.out.println("Allowed retention time identification error set to " + value);
+                    break;
+                case "-g":
+                    System.out.println("Graphical output has been toggled on");
+                    graphical = true;
                     break;
                 case "-p":
                     Main.isCustomPath = true;
@@ -92,15 +100,26 @@ public class Main {
         for(File file : filesInFolder) {
             System.out.println("Reading Data from " + file.getName() + " (this make take a moment)...");
             List<DataRow> workingData = JacksonCSVReader.readCSV(file);
+            datasets.put(workingData, file.getName());
+
             System.out.println(workingData.size() + " rows read");
             ArrayList<GCFeature> features = PeakFinder.findPeaks(workingData);
             System.out.println(features.size() + " features found");
 
             System.out.println(AsciiTable.getTable(features, Arrays.asList(
-                    new Column().header("Feature ID").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(feature -> String.valueOf(feature.getFeatureID())),
-                    new Column().header("Estimated Identity").with(feature -> String.format("%s", feature.getIdentity())),
-                    new Column().header("Peak Center").with(feature -> String.format("%.03f", feature.getCenterTime())),
-                    new Column().header("Peak Area").with(feature -> String.format("%.02f", feature.getPeakArea())))));
+                    new Column().header("Feature ID").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(feature -> java.lang.String.valueOf(feature.getFeatureID())),
+                    new Column().header("Estimated Identity").with(feature -> java.lang.String.format("%s", feature.getIdentity())),
+                    new Column().header("Peak Center").with(feature -> java.lang.String.format("%.03f", feature.getCenterTime())),
+                    new Column().header("Peak Area").with(feature -> java.lang.String.format("%.02f", feature.getPeakArea())))));
+        }
+        if(graphical) {
+            SwingUtilities.invokeLater(() -> {
+                XYPlot example = new XYPlot(datasets);
+                example.setSize(800, 600);
+                example.setLocationRelativeTo(null);
+                example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                example.setVisible(true);
+            });
         }
     }
 }

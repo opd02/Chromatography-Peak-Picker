@@ -24,6 +24,8 @@ public class PeakFinder {
         GCFeature feature = new GCFeature();
         for(DataRow row : list){
             if(row.getIntensity() > Main.INTENSITY_THRESHOLD){
+
+                //TODO check for shoulders if the value goes back up after the max
                 feature.addData(row);
             }else{
                 if(!feature.isEmpty()){

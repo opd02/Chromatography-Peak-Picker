@@ -30,6 +30,7 @@ public class JacksonCSVReader {
             while (iterator.hasNext()) {
                 DataRow row = iterator.next();
                 returnedPuzzle.add(row);
+
             }
         }
         return returnedPuzzle;
